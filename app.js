@@ -465,8 +465,7 @@ function processRequest(req, res, next) {
 
     // Unsecured API Call helper
     function unsecuredCall() {
-        console.log('Unsecured Call:');
-//        console.dir(reqQuery);
+        console.log('Unsecured Call');
 
         // Add API Key to params, if any.
         if (apiKey != '' && apiKey != 'undefined' && apiKey != undefined) {
@@ -479,7 +478,6 @@ function processRequest(req, res, next) {
             options.path += apiConfig.keyParam + '=' + apiKey;
         }
 
-        // Perform signature routine, if any.
         if (apiConfig.auth=='basicAuth') {
         	options.headers['Authorization']='Basic '+new Buffer(reqQuery.apiUsername+':'+reqQuery.apiPassword).toString('base64');
         }
