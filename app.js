@@ -287,17 +287,12 @@ function processRequest(req, res, next) {
     // Replace placeholders in the methodURL with matching params
     for (var param in params) {
         if (params.hasOwnProperty(param)) {
-            if (params[param] !== '') {
-                // URL params are prepended with ":"
-                var regx = new RegExp(':' + param);
-
-                // If the param is actually a part of the URL, put it in the URL and remove the param
-                if (!!regx.test(methodURL)) {
-                    methodURL = methodURL.replace(regx, params[param]);
-                    delete params[param]
-                }
-            } else {
-                delete params[param]; // Delete blank params
+            // URL params are prepended with ":"
+            var regx = new RegExp(':' + param, 'g');
+            // If the param is actually a part of the URL, put it in the URL and remove the param
+            if (!!regx.test(methodURL)) {
+                methodURL = methodURL.replace(regx, params[param]);
+                delete params[param]
             }
         }
     }
