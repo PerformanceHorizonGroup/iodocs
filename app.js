@@ -288,11 +288,14 @@ function processRequest(req, res, next) {
     for (var param in params) {
         if (params.hasOwnProperty(param)) {
             // URL params are prepended with ":"
-            var regx = new RegExp(':' + param, 'g');
-            // If the param is actually a part of the URL, put it in the URL and remove the param
-            if (!!regx.test(methodURL)) {
-                methodURL = methodURL.replace(regx, params[param]);
-                delete params[param]
+           	var regx=new RegExp(':' + param, 'g'); // check for the placeholder
+            if(!!regx.test(methodURL)){ // If the param is actually a part of the URL
+            	regx=new RegExp('\\[([^:\\[]*):' + param + '([^:\\]]*)\\]|:' + param, 'g'); // set it to also replace the placeholder and surrounding [] if any
+	        	var repl=params[param];
+	            if(params[param]!=='')	// if there's a value
+	            	repl='$1'+repl+'$2';
+                methodURL = methodURL.replace(regx, repl);	// replace
+                delete params[param]; // remove the param
             }
         }
     }
