@@ -535,6 +535,8 @@ function processRequest(req, res, next) {
                 options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
                 sendData = paramString
             }
+            if (!options.headers['Content-Length'])
+                options.headers['Content-Length'] = Buffer.byteLength(sendData);
         }
 
         if (config.debug) {
