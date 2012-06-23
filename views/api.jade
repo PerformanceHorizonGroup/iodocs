@@ -80,6 +80,7 @@ ul
                             span.name #{method.MethodName}
                             span.uri #{method.URI}
                         form.hidden
+                            input(type='hidden', name='dataFormat', value=method.DataFormat)
                             input(type='hidden', name='httpMethod', value=method.HTTPMethod)
                             input(type='hidden', name='oauth', value=secure)
                             input(type='hidden', name='methodUri', value=method.URI)

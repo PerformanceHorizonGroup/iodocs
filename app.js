@@ -278,6 +278,7 @@ function processRequest(req, res, next) {
         params = reqQuery.params || {},
         methodURL = reqQuery.methodUri,
         httpMethod = reqQuery.httpMethod,
+        dataFormat = reqQuery.dataFormat,
         apiKey = reqQuery.apiKey,
         apiSecret = reqQuery.apiSecret,
         apiName = reqQuery.apiName
@@ -312,8 +313,13 @@ function processRequest(req, res, next) {
             host: baseHostUrl,
             port: baseHostPort,
             method: httpMethod,
-            path: apiConfig.publicPath + methodURL + ((paramString.length > 0) ? '?' + paramString : "")
+            path: apiConfig.publicPath + methodURL
         };
+
+    // Append URL parameter list to GET, if needed
+    if (httpMethod == 'GET') {
+        options.path += ((paramString.length > 0) ? '?' + paramString : "")
+    }
 
     if (apiConfig.oauth) {
         console.log('Using OAuth');
@@ -515,8 +521,20 @@ function processRequest(req, res, next) {
             options.headers = headers;
         }
 
-        if (!options.headers['Content-Length']) {
-            options.headers['Content-Length'] = 0;
+        var sendData = ''
+        if (options.method == 'GET' || options.method == 'DELETE') {
+            if (!options.headers['Content-Length']) {
+                options.headers['Content-Length'] = 0;
+            }
+        }
+        else if (options.method == 'POST' || options.method == 'PUT') {
+            if (dataFormat && dataFormat.match(/^json$/i)) {
+                options.headers['Content-Type'] = 'application/json';
+                sendData = JSON.stringify(params)
+            } else {
+                options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                sendData = paramString
+            }
         }
 
         if (config.debug) {
@@ -575,6 +593,12 @@ function processRequest(req, res, next) {
             };
         });
 
+        if (sendData.length) {
+            if (config.debug) {
+                console.log("Request Body: "+sendData) 
+            }
+            apiCall.write(sendData)
+        }
         apiCall.end();
     }
 }
