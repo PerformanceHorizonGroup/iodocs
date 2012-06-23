@@ -20,10 +20,10 @@ form#credentials
                  div (basic HTTP authorization)
                  br
                  div
-                     label(for='key') User name
+                     label(for='key') User API Key
                      input(id='username', name='username', style='color=#EEEEEE')
                  div
-                     label(for='key') Password
+                     label(for='key') API Key
                      input(id='password', name='password', value=defaultKey, style='color=#EEEEEE')
              - else
                  - if (apiInfo.oauth)
