@@ -176,6 +176,13 @@
             apiName = { name: 'apiName', value: $('input[name=apiName]').val() },
             apiUsername = { name: 'apiUsername', value: $('input[name=username]').val() },
             apiPassword = { name: 'apiPassword', value: $('input[name=password]').val() };
+        
+        for(var i=0; i<params.length; i++){
+        	var paramEl=$('.parameters [name="'+params[i].name+'"]', this);
+        	if(params[i].value==='' && paramEl.length && !paramEl.is('[placeholder=required]')){
+        		params.splice(i--, 1);	// remove params with no set value if they are not marked as required
+        	}
+        }
 
         params.push(apiKey, apiSecret, apiName, apiUsername, apiPassword);
 
