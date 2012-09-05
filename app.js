@@ -292,12 +292,13 @@ function processRequest(req, res, next) {
            	var regx=new RegExp(':' + param, 'g'); // check for the placeholder
             if(!!regx.test(methodURL)){ // If the param is actually a part of the URL
             	regx=new RegExp('\\[([^:\\[]*):' + param + '([^:\\]]*)\\]|:' + param, 'g'); // set it to also replace the placeholder and surrounding [] if any
-	        	var repl=params[param];
-	            if(params[param]!=='')	// if there's a value
+	        	var repl=params[param]||'';	// it should always be some string value and if not then it must be null in which case use ''
+	            if(repl!=='')	// if there's a value
 	            	repl='$1'+repl+'$2';
                 methodURL = methodURL.replace(regx, repl);	// replace
                 delete params[param]; // remove the param
-            }
+            }else if(params[param]===null)
+            	delete params[param]; // remove the param
         }
     }
 
