@@ -288,17 +288,15 @@ function processRequest(req, res, next) {
     // Replace placeholders in the methodURL with matching params
     for (var param in params) {
         if (params.hasOwnProperty(param)) {
-            if (params[param] !== '') {
-                // URL params are prepended with ":"
-                var regx = new RegExp(':' + param);
-
-                // If the param is actually a part of the URL, put it in the URL and remove the param
-                if (!!regx.test(methodURL)) {
-                    methodURL = methodURL.replace(regx, params[param]);
-                    delete params[param]
-                }
-            } else {
-                delete params[param]; // Delete blank params
+            // URL params are prepended with ":"
+           	var regx=new RegExp(':' + param, 'g'); // check for the placeholder
+            if(!!regx.test(methodURL)){ // If the param is actually a part of the URL
+            	regx=new RegExp('\\[([^:\\[]*):' + param + '([^:\\]]*)\\]|:' + param, 'g'); // set it to also replace the placeholder and surrounding [] if any
+	        	var repl=params[param];
+	            if(params[param]!=='')	// if there's a value
+	            	repl='$1'+repl+'$2';
+                methodURL = methodURL.replace(regx, repl);	// replace
+                delete params[param]; // remove the param
             }
         }
     }
@@ -485,6 +483,10 @@ function processRequest(req, res, next) {
                 options.path += '?';
             }
             options.path += apiConfig.keyParam + '=' + apiKey;
+        }
+
+        if (apiConfig.auth=='basicAuth') {
+        	options.headers['Authorization']='Basic '+new Buffer(reqQuery.apiUsername+':'+reqQuery.apiPassword).toString('base64');
         }
 
         // Perform signature routine, if any.
