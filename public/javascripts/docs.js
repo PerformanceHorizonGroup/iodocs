@@ -181,7 +181,7 @@
         	var paramEl=$('.parameters [name="'+params[i].name+'"]', this);
         	if(params[i].value==='' && paramEl.length && !paramEl.is('[placeholder=required]')){
 //        		params.splice(i--, 1);	// remove params with no set value if they are not marked as required
-        		params[i]=null;
+        		params[i].value=null;
         	}
         }
 
@@ -245,7 +245,7 @@
 
         console.log(params);
 
-        $.post('/processReq', params, function(result, text) {
+        $.post('/processReq', {params:JSON.stringify(params)}, function(result, text) {
             // If we get passed a signin property, open a window to allow the user to signin/link their account
             if (result.signin) {
                 window.open(result.signin,"_blank","height=900,width=800,menubar=0,resizable=1,scrollbars=1,status=0,titlebar=0,toolbar=0");

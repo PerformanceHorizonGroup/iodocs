@@ -122,8 +122,22 @@ app.configure('production', function() {
 //
 function oauth(req, res, next) {
     console.log('OAuth process started');
-    var apiName = req.body.apiName,
-        apiConfig = apisConfig[apiName];
+    var apiName = req.body.apiName;
+    if(typeof apiName == 'undefined' && ('params' in req.body)){
+    	// params must be JSON encoded
+    	var params=JSON.parse(req.body.params),
+    		reParamsArr=/^params\[(.*)\]$/;
+    	req.body.params={};
+    	for(var i=0; i<params.length; i++){
+    		var match=params[i].name.match(reParamsArr);
+    		if(match)
+    			req.body.params[match[1]]=params[i].value;
+    		else
+   				req.body[params[i].name]=params[i].value;
+    	}
+   		apiName = req.body.apiName;
+    }
+	var apiConfig = apisConfig[apiName];
 
     if (apiConfig.oauth) {
         var apiKey = req.body.apiKey || req.body.key,
