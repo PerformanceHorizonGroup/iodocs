@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "connect-redis": "1.0.6",
-    "express": "3.0.0rc4",
+    "express": ">=3.0.0rc4",
     "jade": "0.13",
     "oauth": "0.9.3",
     "redis": ">= 0.7.0",
