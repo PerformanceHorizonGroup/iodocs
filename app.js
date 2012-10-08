@@ -78,8 +78,7 @@ fs.readFile('public/data/apiconfig.json', 'utf-8', function(err, data) {
     }
 });
 
-var express = require("express");
-var app = express();
+var app = module.exports = express.createServer();
 
 if (process.env.REDISTOGO_URL) {
     var rtg   = require("url").parse(process.env.REDISTOGO_URL);
@@ -643,7 +642,7 @@ app.dynamicHelpers({
                     req.params.api = pathName;
                 }
             });
-        }
+        }       
         // If the cookie says we're authed for this particular API, set the session to authed as well
         if (req.params.api && req.session[req.params.api] && req.session[req.params.api]['authed']) {
             req.session['authed'] = true;
