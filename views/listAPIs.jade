@@ -1,7 +1,51 @@
-h1=title
-
-h2 Choose an API
-
-ul
-   - for (var api in apiInfo)
-       li: a(href = '/' + api) #{apiInfo[api].name}
+body#main
+    .header
+      h1
+        span phg
+        | - interactive api documentation
+    .title
+      h2 Choose API
+      .desc Please select a Performance Horizon API from below
+    .choose
+      ul.ch-grid
+        li
+          .ch-item.ch-img-1
+            .ch-info-wrap
+              .ch-info
+                .ch-info-front.ch-img-1
+                .ch-info-back
+                  h3 Sandbox
+                  p
+                    | by Performance Horizon Group
+                    a(href='http://apiconsole.phgdev.com/phgsandbox') Select API
+        li
+          .ch-item.ch-img-2
+            .ch-info-wrap
+              .ch-info
+                .ch-info-front.ch-img-2
+                .ch-info-back
+                  h3 Live
+                  p
+                    | by Performance Horizon Group
+                    a(href='http://apiconsole.phgdev.com/phg') Select API
+        li
+          .ch-item.ch-img-3
+            .ch-info-wrap
+              .ch-info
+                .ch-info-front.ch-img-3
+                .ch-info-back
+                  h3 Docs
+                  p
+                    | by Performance Horizon Group
+                    a(href='http://apidocs.performancehorizon.com') Select API
+    //
+       AddThis Button BEGIN 
+    .addthis_toolbox.addthis_default_style
+      a.addthis_button_facebook_like(fb:like:layout='button_count')
+      a.addthis_button_tweet
+      //
+         <a class="addthis_button_pinterest_pinit"></a> 
+      a.addthis_counter.addthis_pill_style
+    script(type='text/javascript', src='http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-505b35804af591a3')
+    //
+       AddThis Button END 

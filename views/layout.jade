@@ -1,21 +1,23 @@
 !!! 5
 html
     head
+        meta(name='robots', content='noindex,nofollow')
+        meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
         - if (apiInfo.name)
             - var title = apiInfo.name + ' API Documentation'
         -else
-            - var title = 'Live Documentation'
+            - var title = 'PHG - Interactive API Documentation'
         title=title
         link(rel='stylesheet', href='/stylesheets/prettify.css')
         link(rel='stylesheet', href='/stylesheets/style.css')
 
     body
         !{body}
-        div(id='io-footer')
-           div(class='f-left') &copy;  
-              a(href='http://mashery.com/io') Mashery, Inc.
-           div(class='f-right') Powered by 
-              a(href='https://github.com/mashery/iodocs') I/O Docs
+      #io-footer
+        | ©
+        a(href='http://performancehorizon.com') Performance Horizon Group
+        | - Powered by
+        a(href='https://github.com/mashery/iodocs') I/O Docs
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js')
         script(src='/javascripts/json2.js')
         script(src='/javascripts/prettify.js')
