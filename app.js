@@ -717,5 +717,5 @@ app.get('/:api([^\.]+)', function(req, res) {
 if (!module.parent) {
     var port = process.env.PORT || config.port;
     app.listen(port, config.address);
-    console.log("Express server listening on port %d", app.address().port);
+    console.log("Express server listening on port %d", config.port);
 }
